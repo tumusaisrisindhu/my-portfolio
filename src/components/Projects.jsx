@@ -146,6 +146,7 @@ function Projects() {
                 <div className="flex gap-3">
                   <Link
                     to={proj.route}
+                    target="_blank"
                     className="px-4 py-1 text-sm rounded-full 
                   border border-white/20
                   hover:bg-black hover:text-white 

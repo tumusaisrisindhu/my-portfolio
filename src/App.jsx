@@ -9,21 +9,18 @@ import Resume from "./components/Resume";
 import Certifications from "./components/Certifications";
 import HelloIntro from "./components/HelloIntro";
 import Footer from "./components/Footer";
+import UnitConverter from "./pages/UnitConverter";
 
 import TodoPage from "./pages/TodoPage";
 import WeatherPage from "./pages/WeatherPage";
 
 // ✅ Main layout
-function MainLayout({ theme, setTheme }) {
+function MainLayout({ theme, setTheme, children }) {
   return (
     <div className="py-20 bg-white text-black dark:bg-black dark:text-white transition-colors duration-300">
       <Navbar theme={theme} setTheme={setTheme} />
 
-      <Hero />
-      <About />
-      <Projects />
-      <Resume />
-      <Certifications />
+      {children}
 
       <Footer />
     </div>
@@ -31,7 +28,9 @@ function MainLayout({ theme, setTheme }) {
 }
 
 function App() {
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => {
+    return localStorage.getItem("introSeen") !== "true";
+  });
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
 
   useEffect(() => {
@@ -44,7 +43,14 @@ function App() {
   }, [theme]);
 
   if (showIntro) {
-    return <HelloIntro onFinish={() => setShowIntro(false)} />;
+    return (
+      <HelloIntro
+        onFinish={() => {
+          localStorage.setItem("introSeen", "true");
+          setShowIntro(false);
+        }}
+      />
+    );
   }
 
   return (
@@ -52,15 +58,61 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<MainLayout theme={theme} setTheme={setTheme} />}
+          element={
+            <MainLayout theme={theme} setTheme={setTheme}>
+              <Hero />
+              <About />
+              <Projects />
+              <Resume />
+              <Certifications />
+            </MainLayout>
+          }
         />
-        <Route path="/projects/todo" element={<TodoPage />} />
-        <Route path="/projects/weather" element={<WeatherPage />} />
 
-        {/* TEMP placeholders (better UX than empty div) */}
-        <Route path="/projects/interest" element={<ComingSoon />} />
-        <Route path="/projects/converter" element={<ComingSoon />} />
-        <Route path="/projects/tictactoe" element={<ComingSoon />} />
+        <Route
+          path="/projects/todo"
+          element={
+            <MainLayout theme={theme} setTheme={setTheme}>
+              <TodoPage />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/projects/weather"
+          element={
+            <MainLayout theme={theme} setTheme={setTheme}>
+              <WeatherPage />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/projects/converter"
+          element={
+            <MainLayout theme={theme} setTheme={setTheme}>
+              <UnitConverter />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/projects/interest"
+          element={
+            <MainLayout theme={theme} setTheme={setTheme}>
+              <ComingSoon />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/projects/tictactoe"
+          element={
+            <MainLayout theme={theme} setTheme={setTheme}>
+              <ComingSoon />
+            </MainLayout>
+          }
+        />
       </Routes>
     </Router>
   );
