@@ -34,6 +34,12 @@ const projects = [
     tech: "React + Flask + MySQL",
     route: "/projects/todo",
   },
+  {
+    title: "Housie Game",
+    desc: "Interactive housie/tambola game with autoplay and history.",
+    tech: "React + Flask",
+    route: "/projects/housie",
+  },
 ];
 
 const extendedProjects = [...projects, ...projects];
