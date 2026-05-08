@@ -9,10 +9,11 @@ import Resume from "./components/Resume";
 import Certifications from "./components/Certifications";
 import HelloIntro from "./components/HelloIntro";
 import Footer from "./components/Footer";
-import UnitConverter from "./pages/UnitConverter";
 
+import UnitConverter from "./pages/UnitConverter";
 import TodoPage from "./pages/TodoPage";
 import WeatherPage from "./pages/WeatherPage";
+import Housie from "./pages/housie";
 
 // ✅ Main layout
 function MainLayout({ theme, setTheme, children }) {
@@ -92,6 +93,15 @@ function App() {
           element={
             <MainLayout theme={theme} setTheme={setTheme}>
               <UnitConverter />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/projects/housie"
+          element={
+            <MainLayout theme={theme} setTheme={setTheme}>
+              <Housie />
             </MainLayout>
           }
         />
