@@ -14,6 +14,7 @@ import UnitConverter from "./pages/UnitConverter";
 import TodoPage from "./pages/TodoPage";
 import WeatherPage from "./pages/WeatherPage";
 import Housie from "./pages/housie";
+import TicTacToePage from "./pages/TicTacToe/TicTacToePage";
 
 // ✅ Main layout
 function MainLayout({ theme, setTheme, children }) {
@@ -119,7 +120,7 @@ function App() {
           path="/projects/tictactoe"
           element={
             <MainLayout theme={theme} setTheme={setTheme}>
-              <ComingSoon />
+              <TicTacToePage />
             </MainLayout>
           }
         />
