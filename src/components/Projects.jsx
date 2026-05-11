@@ -8,7 +8,7 @@ const projects = [
     title: "Interest Calculator API",
     desc: "Calculates simple and compound interest using a Python Flask backend.",
     tech: "React + Flask API",
-    route: "/projects/interest",
+    route: "/projects/calculators",
   },
   {
     title: "Unit Converter API",
@@ -20,7 +20,7 @@ const projects = [
     title: "Tic-Tac-Toe (API Based)",
     desc: "Game logic handled entirely in backend with API calls.",
     tech: "React + Flask API",
-    route: "/projects/tictactoe",
+    route: "/projects/tic-tac-toe",
   },
   {
     title: "Weather App",

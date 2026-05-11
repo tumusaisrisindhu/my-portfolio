@@ -4,6 +4,7 @@ const API = axios.create({
   baseURL: "http://localhost:5000", // change after deployment
 });
 
+// todo list APIs start, used axios
 // GET all tasks
 export const getTasks = () => API.get("/tasks");
 
@@ -15,3 +16,12 @@ export const updateTask = (id, data) => API.put(`/tasks/${id}`, data);
 
 // DELETE task
 export const deleteTask = (id) => API.delete(`/tasks/${id}`);
+// todo list APIs end
+
+// calculator APIs start, used async-await
+export const calculateSimpleInterest = async (data) => {
+  const response = await API.post("/calculate/simple-interest", data);
+
+  return response.data;
+};
+//calculator APIs end

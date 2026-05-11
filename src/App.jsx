@@ -15,6 +15,7 @@ import TodoPage from "./pages/TodoPage";
 import WeatherPage from "./pages/WeatherPage";
 import Housie from "./pages/housie";
 import TicTacToePage from "./pages/TicTacToe/TicTacToePage";
+import CalculatorPage from "./pages/calculators/CalculatorPage";
 
 // ✅ Main layout
 function MainLayout({ theme, setTheme, children }) {
@@ -108,16 +109,16 @@ function App() {
         />
 
         <Route
-          path="/projects/interest"
+          path="/projects/calculators"
           element={
             <MainLayout theme={theme} setTheme={setTheme}>
-              <ComingSoon />
+              <CalculatorPage />
             </MainLayout>
           }
         />
 
         <Route
-          path="/projects/tictactoe"
+          path="/projects/tic-tac-toe"
           element={
             <MainLayout theme={theme} setTheme={setTheme}>
               <TicTacToePage />
