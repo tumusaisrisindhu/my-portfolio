@@ -87,12 +87,12 @@ function TicTacToePage() {
               {game.players[game.current_player]}
             </span>
           </p>
-
+          <br></br>
           <button
             onClick={handleReset}
             className="
               h-20
-              w-30
+              w-40
               rounded-2xl
               border
               border-black/10
