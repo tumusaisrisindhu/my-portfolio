@@ -81,6 +81,7 @@ function CalculatorTabs({ activeCalculator, setActiveCalculator }) {
             <Menu.Item>
               {({ active }) => (
                 <button
+                  onClick={() => setActiveCalculator("compound-interest")}
                   className={`
                     w-full
                     text-left

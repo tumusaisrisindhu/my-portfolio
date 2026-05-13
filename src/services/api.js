@@ -19,8 +19,16 @@ export const deleteTask = (id) => API.delete(`/tasks/${id}`);
 // todo list APIs end
 
 // calculator APIs start, used async-await
+//Simple Interest API
 export const calculateSimpleInterest = async (data) => {
   const response = await API.post("/calculate/simple-interest", data);
+
+  return response.data;
+};
+
+// Comppund Interest API
+export const calculateCompoundInterest = async (data) => {
+  const response = await API.post("/calculate/compound-interest", data);
 
   return response.data;
 };
