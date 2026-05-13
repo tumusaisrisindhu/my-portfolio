@@ -1,15 +1,16 @@
 import { useState } from "react";
 
-import { calculateSimpleInterest } from "../../../services/api";
+import { calculateCompoundInterest } from "../../../services/api";
 
 import ResultCard from "../../../components/calculators/ResultCard";
 
-function SimpleInterest() {
+function CompoundInterest() {
   const [formData, setFormData] = useState({
     principal: "",
     rate: "",
     time: "",
-    tenure_type: "yearly",
+    tenure_type: "years",
+    frequency_type: "yearly",
   });
 
   const [result, setResult] = useState(null);
@@ -17,6 +18,7 @@ function SimpleInterest() {
   const handleChange = (event) => {
     setFormData({
       ...formData,
+
       [event.target.name]: event.target.value,
     });
   };
@@ -24,7 +26,7 @@ function SimpleInterest() {
   const handleCalculate = async (event) => {
     event.preventDefault();
 
-    const data = await calculateSimpleInterest(formData);
+    const data = await calculateCompoundInterest(formData);
 
     setResult(data);
   };
@@ -38,7 +40,7 @@ function SimpleInterest() {
           lg:grid-cols-2
         "
       >
-        {/* LEFT SIDE */}
+        {/* LEFT */}
         <form
           onSubmit={handleCalculate}
           className="
@@ -48,7 +50,6 @@ function SimpleInterest() {
             bg-gray-100
             p-8
             shadow-sm
-            transition-all
             dark:border-white/10
             dark:bg-white/5
           "
@@ -60,7 +61,7 @@ function SimpleInterest() {
               font-bold
             "
           >
-            Simple Interest
+            Compound Interest
           </h2>
 
           <div className="grid gap-6">
@@ -92,7 +93,6 @@ function SimpleInterest() {
                   px-4
                   py-3
                   outline-none
-                  transition-all
                   focus:border-green-500
                   dark:border-white/10
                   dark:bg-black/20
@@ -130,7 +130,6 @@ function SimpleInterest() {
                   px-4
                   py-3
                   outline-none
-                  transition-all
                   focus:border-green-500
                   dark:border-white/10
                   dark:bg-black/20
@@ -187,9 +186,6 @@ function SimpleInterest() {
                   name="tenure_type"
                   value={formData.tenure_type}
                   onChange={handleChange}
-                  style={{
-                    accentColor: "#22c55e",
-                  }}
                   className="
                     w-full
                     rounded-xl
@@ -213,13 +209,57 @@ function SimpleInterest() {
 
                   <option value="months">Months</option>
 
-                  <option value="quarterly">Quarterly</option>
-
-                  <option value="half-yearly">Half-Yearly</option>
-
-                  <option value="yearly">Yearly</option>
+                  <option value="years">Years</option>
                 </select>
               </div>
+            </div>
+
+            {/* COMPOUND FREQUENCY */}
+            <div>
+              <label
+                className="
+                  mb-2
+                  block
+                  text-sm
+                  font-medium
+                "
+              >
+                Compound Frequency
+              </label>
+
+              <select
+                name="frequency_type"
+                value={formData.frequency_type}
+                onChange={handleChange}
+                className="
+                  w-full
+                  rounded-xl
+                  border
+                  border-black/20
+                  bg-white
+                  px-4
+                  py-3
+                  outline-none
+                  transition-all
+                  focus:border-green-500
+                  focus:ring-2
+                  focus:ring-green-500
+                  hover:border-green-500
+                  dark:border-white/10
+                  dark:bg-black
+                  dark:text-white
+                "
+              >
+                <option value="daily">Daily</option>
+
+                <option value="monthly">Monthly</option>
+
+                <option value="quarterly">Quarterly</option>
+
+                <option value="half-yearly">Half-Yearly</option>
+
+                <option value="yearly">Yearly</option>
+              </select>
             </div>
 
             {/* BUTTON */}
@@ -243,7 +283,7 @@ function SimpleInterest() {
           </div>
         </form>
 
-        {/* RIGHT SIDE */}
+        {/* RIGHT */}
         <div
           className="
             flex
@@ -252,16 +292,18 @@ function SimpleInterest() {
           "
         >
           <ResultCard
-            title="Simple Interest"
-            value={result?.simple_interest ?? "0.00"}
+            title="
+            Compound Interest"
+            value={result?.compound_interest ?? "0.00"}
           />
 
           <ResultCard
-            title="Total Amount"
+            title="
+            Total Amount"
             value={result?.total_amount ?? "0.00"}
           />
 
-          {/* FORMULA CARD */}
+          {/* FORMULA */}
           <div
             className="
               rounded-3xl
@@ -292,24 +334,8 @@ function SimpleInterest() {
                 text-green-500
               "
             >
-              SI = (P × R × T) / 100
+              A = P(1 + R/N)^NT
             </h2>
-
-            <div
-              className="
-                mt-4
-                text-sm
-                leading-7
-                text-gray-600
-                dark:text-gray-400
-              "
-            >
-              <p>P = Principal Amount</p>
-
-              <p>R = Rate of Interest</p>
-
-              <p>T = Time Period</p>
-            </div>
           </div>
         </div>
       </div>
@@ -317,4 +343,4 @@ function SimpleInterest() {
   );
 }
 
-export default SimpleInterest;
+export default CompoundInterest;

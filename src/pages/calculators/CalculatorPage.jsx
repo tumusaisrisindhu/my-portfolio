@@ -3,6 +3,7 @@ import { useState } from "react";
 import CalculatorTabs from "../../components/calculators/CalculatorTabs";
 
 import SimpleInterest from "./financial/SimpleInterest";
+import CompoundInterest from "./financial/CompoundInterest";
 
 function CalculatorPage() {
   const [activeCalculator, setActiveCalculator] = useState("simple-interest");
@@ -25,6 +26,7 @@ function CalculatorPage() {
           font-bold
           text-center
           mb-12
+          text-green-500
         "
       >
         Calculators
@@ -37,6 +39,7 @@ function CalculatorPage() {
 
       {/* ACTIVE CALCULATOR */}
       {activeCalculator === "simple-interest" && <SimpleInterest />}
+      {activeCalculator === "compound-interest" && <CompoundInterest />}
     </div>
   );
 }
