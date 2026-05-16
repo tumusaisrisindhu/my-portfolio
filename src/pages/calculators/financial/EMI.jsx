@@ -1,22 +1,33 @@
 import { useState } from "react";
+import { Listbox } from "@headlessui/react";
 
-import { calculateSimpleInterest } from "../../../services/api";
+import { calculateEMI } from "../../../services/api";
 
 import ResultCard from "../../../components/calculators/ResultCard";
 
-function SimpleInterest() {
+function EMI() {
   const [formData, setFormData] = useState({
     principal: "",
     rate: "",
     time: "",
-    tenure_type: "yearly",
+    frequency: "monthly",
   });
+
+  const frequencyOptions = [
+    "weekly",
+    "bi-weekly",
+    "monthly",
+    "quarterly",
+    "half-yearly",
+    "yearly",
+  ];
 
   const [result, setResult] = useState(null);
 
   const handleChange = (event) => {
     setFormData({
       ...formData,
+
       [event.target.name]: event.target.value,
     });
   };
@@ -24,7 +35,7 @@ function SimpleInterest() {
   const handleCalculate = async (event) => {
     event.preventDefault();
 
-    const data = await calculateSimpleInterest(formData);
+    const data = await calculateEMI(formData);
 
     setResult(data);
   };
@@ -38,7 +49,7 @@ function SimpleInterest() {
           lg:grid-cols-2
         "
       >
-        {/* LEFT SIDE */}
+        {/* LEFT */}
         <form
           onSubmit={handleCalculate}
           className="
@@ -48,7 +59,6 @@ function SimpleInterest() {
             bg-gray-100
             p-8
             shadow-sm
-            transition-all
             dark:border-white/10
             dark:bg-white/5
           "
@@ -60,11 +70,11 @@ function SimpleInterest() {
               font-bold
             "
           >
-            Simple Interest
+            EMI Calculator
           </h2>
 
           <div className="grid gap-6">
-            {/* PRINCIPAL */}
+            {/* LOAN */}
             <div>
               <label
                 className="
@@ -74,7 +84,7 @@ function SimpleInterest() {
                   font-medium
                 "
               >
-                Principal Amount (₹)
+                Loan Amount (₹)
               </label>
 
               <input
@@ -82,7 +92,7 @@ function SimpleInterest() {
                 name="principal"
                 value={formData.principal}
                 onChange={handleChange}
-                placeholder="Enter amount"
+                placeholder="Enter loan amount"
                 className="
                   w-full
                   rounded-xl
@@ -92,11 +102,9 @@ function SimpleInterest() {
                   px-4
                   py-3
                   outline-none
-                  transition-all
                   focus:border-green-500
                   dark:border-white/10
                   dark:bg-black/20
-                  dark:[color-scheme:dark]
                 "
                 required
               />
@@ -130,11 +138,9 @@ function SimpleInterest() {
                   px-4
                   py-3
                   outline-none
-                  transition-all
                   focus:border-green-500
                   dark:border-white/10
                   dark:bg-black/20
-                  dark:[color-scheme:dark]
                 "
                 required
               />
@@ -150,73 +156,109 @@ function SimpleInterest() {
                   font-medium
                 "
               >
-                Time Period
+                Loan Duration (Years)
               </label>
 
-              <div
+              <input
+                type="number"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                placeholder="Enter years"
                 className="
-                  grid
-                  grid-cols-2
-                  gap-3
+                  w-full
+                  rounded-xl
+                  border
+                  border-black/20
+                  bg-white
+                  px-4
+                  py-3
+                  outline-none
+                  focus:border-green-500
+                  dark:border-white/10
+                  dark:bg-black/20
+                "
+                required
+              />
+            </div>
+
+            {/* FREQUENCY */}
+            <div>
+              <label
+                className="
+                  mb-2
+                  block
+                  text-sm
+                  font-medium
                 "
               >
-                <input
-                  type="number"
-                  name="time"
-                  value={formData.time}
-                  onChange={handleChange}
-                  placeholder="Enter time"
-                  className="
-                    w-full
-                    rounded-xl
-                    border
-                    border-black/20
-                    bg-white
-                    px-4
-                    py-3
-                    outline-none
-                    focus:border-green-500
-                    dark:border-white/10
-                    dark:bg-black
-                    dark:[color-scheme:dark]
-                  "
-                  required
-                />
+                EMI Frequency
+              </label>
 
-                <select
-                  name="tenure_type"
-                  value={formData.tenure_type}
-                  onChange={handleChange}
-                  className="
-                    w-full
-                    rounded-xl
-                    border
-                    border-black/20
-                    bg-white
-                    px-4
-                    py-3
-                    outline-none
-                    transition-all
-                    focus:border-green-500
-                    focus:ring-2
-                    focus:ring-green-500
-                    hover:border-green-500
-                    dark:border-white/10
-                    dark:bg-black
-                    dark:text-white
-                  "
-                >
-                  <option value="days">Days</option>
+              <Listbox
+                value={formData.frequency}
+                onChange={(value) =>
+                  setFormData({
+                    ...formData,
+                    frequency: value,
+                  })
+                }
+              >
+                <div className="relative">
+                  <Listbox.Button
+                    className="
+                      w-full
+                      rounded-xl
+                      border
+                      border-black/20
+                      bg-white
+                      px-4
+                      py-3
+                      text-left
+                      outline-none
+                      dark:border-white/10
+                      dark:bg-black/20
+                    "
+                  >
+                    {formData.frequency}
+                  </Listbox.Button>
 
-                  <option value="months">Months</option>
-
-                  <option value="quarterly">Quarterly</option>
-
-                  <option value="half-yearly">Half-Yearly</option>
-
-                  <option value="yearly">Yearly</option>
-                </select>
-              </div>
+                  <Listbox.Options
+                    className="
+                      absolute
+                      mt-2
+                      w-full
+                      overflow-hidden
+                      rounded-xl
+                      border
+                      border-black/10
+                      bg-white
+                      shadow-lg
+                      dark:border-white/10
+                      dark:bg-[#111]
+                      z-20
+                    "
+                  >
+                    {frequencyOptions.map((option) => (
+                      <Listbox.Option
+                        key={option}
+                        value={option}
+                        className={({ active }) =>
+                          `
+                          cursor-pointer
+                          px-4
+                          py-3
+                          capitalize
+                          ${active ? "bg-green-400 text-black" : ""}
+                        `
+                        }
+                      >
+                        {option}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </div>
+              </Listbox>
             </div>
 
             {/* BUTTON */}
@@ -235,12 +277,12 @@ function SimpleInterest() {
                 hover:bg-green-600
               "
             >
-              Calculate Interest
+              Calculate EMI
             </button>
           </div>
         </form>
 
-        {/* RIGHT SIDE */}
+        {/* RIGHT */}
         <div
           className="
             flex
@@ -249,16 +291,24 @@ function SimpleInterest() {
           "
         >
           <ResultCard
-            title="Simple Interest"
-            value={result?.simple_interest ?? "0.00"}
+            title={`${
+              result?.frequency?.charAt(0).toUpperCase() +
+              result?.frequency?.slice(1)
+            } EMI`}
+            value={result?.emi ?? "0.00"}
           />
 
           <ResultCard
-            title="Total Amount"
-            value={result?.total_amount ?? "0.00"}
+            title="Total Interest"
+            value={result?.total_interest ?? "0.00"}
           />
 
-          {/* FORMULA CARD */}
+          <ResultCard
+            title="Total Payment"
+            value={result?.total_payment ?? "0.00"}
+          />
+
+          {/* FORMULA */}
           <div
             className="
               rounded-3xl
@@ -284,29 +334,13 @@ function SimpleInterest() {
             <h2
               className="
                 mt-3
-                text-2xl
+                text-xl
                 font-bold
                 text-green-500
               "
             >
-              SI = (P × R × T) / 100
+              EMI = P × R × (1+R)^N / ((1+R)^N - 1)
             </h2>
-
-            <div
-              className="
-                mt-4
-                text-sm
-                leading-7
-                text-gray-600
-                dark:text-gray-400
-              "
-            >
-              <p>P = Principal Amount</p>
-
-              <p>R = Rate of Interest</p>
-
-              <p>T = Time Period</p>
-            </div>
           </div>
         </div>
       </div>
@@ -314,4 +348,4 @@ function SimpleInterest() {
   );
 }
 
-export default SimpleInterest;
+export default EMI;
