@@ -32,4 +32,11 @@ export const calculateCompoundInterest = async (data) => {
 
   return response.data;
 };
+
+// EMI API
+export const calculateEMI = async (data) => {
+  const response = await API.post("/calculate/emi", data);
+
+  return response.data;
+};
 //calculator APIs end

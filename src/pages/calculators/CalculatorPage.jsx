@@ -4,6 +4,7 @@ import CalculatorTabs from "../../components/calculators/CalculatorTabs";
 
 import SimpleInterest from "./financial/SimpleInterest";
 import CompoundInterest from "./financial/CompoundInterest";
+import EMI from "./financial/EMI";
 
 function CalculatorPage() {
   const [activeCalculator, setActiveCalculator] = useState("simple-interest");
@@ -40,6 +41,7 @@ function CalculatorPage() {
       {/* ACTIVE CALCULATOR */}
       {activeCalculator === "simple-interest" && <SimpleInterest />}
       {activeCalculator === "compound-interest" && <CompoundInterest />}
+      {activeCalculator === "emi" && <EMI />}
     </div>
   );
 }
