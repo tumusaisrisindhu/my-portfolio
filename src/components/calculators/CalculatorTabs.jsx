@@ -167,6 +167,7 @@ function CalculatorTabs({ activeCalculator, setActiveCalculator }) {
           <Menu.Item>
             {({ active }) => (
               <button
+                onClick={() => setActiveCalculator("discount")}
                 className={`
                   w-full
                   text-left
