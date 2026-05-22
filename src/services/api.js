@@ -39,4 +39,11 @@ export const calculateEMI = async (data) => {
 
   return response.data;
 };
+
+// Discount API
+export const calculateDiscount = async (data) => {
+  const response = await API.post("/calculate/discount", data);
+
+  return response.data;
+};
 //calculator APIs end
